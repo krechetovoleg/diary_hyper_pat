@@ -16,7 +16,13 @@ class _DataScreenState extends State<DataScreen> {
   Future<List<Dhp>>? futureDhp;
   final dhpDb = DhpDB();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  var wellbeingList = ['Отличное', 'Хорошее', 'Нормальное', 'Плохое', 'Очень плохое'];
+  var wellbeingList = [
+    'Отличное',
+    'Хорошее',
+    'Нормальное',
+    'Плохое',
+    'Очень плохое'
+  ];
   int isNew = 1;
 
   TextEditingController tcSyst = TextEditingController();
@@ -63,7 +69,8 @@ class _DataScreenState extends State<DataScreen> {
 
     if (selected != null) {
       setState(() {
-        tcTimes.text = "${selected.hour.toString().padLeft(2, '0')} : ${selected.minute.toString().padLeft(2, '0')}";
+        tcTimes.text =
+            "${selected.hour.toString().padLeft(2, '0')} : ${selected.minute.toString().padLeft(2, '0')}";
       });
     }
   }
@@ -92,7 +99,8 @@ class _DataScreenState extends State<DataScreen> {
     showDialog(
         context: context,
         builder: (context) => AlertDialog(
-              shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10.0))),
+              shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(10.0))),
               insetPadding: const EdgeInsets.all(10),
               title: isNew == 1
                   ? const Text(
@@ -137,10 +145,15 @@ class _DataScreenState extends State<DataScreen> {
                                 ),
                                 counterText: "",
                               ),
-                              validator: (value) => value == null || value.isEmpty ? 'Заполните' : null,
+                              validator: (value) =>
+                                  value == null || value.isEmpty
+                                      ? 'Заполните'
+                                      : null,
                               textAlign: TextAlign.center,
                               keyboardType: TextInputType.number,
-                              inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                              inputFormatters: [
+                                FilteringTextInputFormatter.digitsOnly
+                              ],
                               maxLength: 3,
                             ),
                           ),
@@ -166,10 +179,15 @@ class _DataScreenState extends State<DataScreen> {
                                 ),
                                 counterText: "",
                               ),
-                              validator: (value) => value == null || value.isEmpty ? 'Заполните' : null,
+                              validator: (value) =>
+                                  value == null || value.isEmpty
+                                      ? 'Заполните'
+                                      : null,
                               textAlign: TextAlign.center,
                               keyboardType: TextInputType.number,
-                              inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                              inputFormatters: [
+                                FilteringTextInputFormatter.digitsOnly
+                              ],
                               maxLength: 3,
                             ),
                           ),
@@ -195,10 +213,15 @@ class _DataScreenState extends State<DataScreen> {
                                 ),
                                 counterText: "",
                               ),
-                              validator: (value) => value == null || value.isEmpty ? 'Заполните' : null,
+                              validator: (value) =>
+                                  value == null || value.isEmpty
+                                      ? 'Заполните'
+                                      : null,
                               textAlign: TextAlign.center,
                               keyboardType: TextInputType.number,
-                              inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                              inputFormatters: [
+                                FilteringTextInputFormatter.digitsOnly
+                              ],
                               maxLength: 3,
                             ),
                           ),
@@ -222,10 +245,15 @@ class _DataScreenState extends State<DataScreen> {
                                 ),
                                 counterText: "",
                               ),
-                              validator: (value) => value == null || value.isEmpty ? 'Заполните' : null,
+                              validator: (value) =>
+                                  value == null || value.isEmpty
+                                      ? 'Заполните'
+                                      : null,
                               textAlign: TextAlign.center,
                               keyboardType: TextInputType.number,
-                              inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                              inputFormatters: [
+                                FilteringTextInputFormatter.digitsOnly
+                              ],
                               maxLength: 3,
                             ),
                           ),
@@ -251,7 +279,9 @@ class _DataScreenState extends State<DataScreen> {
                               ),
                               textAlign: TextAlign.center,
                               keyboardType: TextInputType.number,
-                              inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                              inputFormatters: [
+                                FilteringTextInputFormatter.digitsOnly
+                              ],
                               maxLength: 3,
                             ),
                           ),
@@ -280,10 +310,14 @@ class _DataScreenState extends State<DataScreen> {
                                   onSelected: (String value) {
                                     tcwellbeing.text = value;
                                   },
-                                  constraints: BoxConstraints(minWidth: wihth * 0.8),
+                                  constraints:
+                                      BoxConstraints(minWidth: wihth * 0.8),
                                   itemBuilder: (BuildContext context) {
-                                    return wellbeingList.map<PopupMenuItem<String>>((String value) {
-                                      return PopupMenuItem(value: value, child: Text(value));
+                                    return wellbeingList
+                                        .map<PopupMenuItem<String>>(
+                                            (String value) {
+                                      return PopupMenuItem(
+                                          value: value, child: Text(value));
                                     }).toList();
                                   },
                                 ),
@@ -343,9 +377,13 @@ class _DataScreenState extends State<DataScreen> {
                           ? dhpDb.insertData(
                               syst: int.parse(tcSyst.text),
                               dist: int.parse(tcDist.text),
-                              pulse: int.parse(tcPulse.text.isEmpty ? "0" : tcPulse.text),
-                              wellbeing: tcwellbeing.text.isEmpty ? "" : tcwellbeing.text,
-                              comment: tcComment.text.isEmpty ? "" : tcComment.text,
+                              pulse: int.parse(
+                                  tcPulse.text.isEmpty ? "0" : tcPulse.text),
+                              wellbeing: tcwellbeing.text.isEmpty
+                                  ? ""
+                                  : tcwellbeing.text,
+                              comment:
+                                  tcComment.text.isEmpty ? "" : tcComment.text,
                               dates: tcDates.text.isEmpty ? "" : tcDates.text,
                               times: tcTimes.text.isEmpty ? "" : tcTimes.text,
                             )
@@ -353,9 +391,13 @@ class _DataScreenState extends State<DataScreen> {
                               id: int.parse(elements?['id']),
                               syst: int.parse(tcSyst.text),
                               dist: int.parse(tcDist.text),
-                              pulse: int.parse(tcPulse.text.isEmpty ? "0" : tcPulse.text),
-                              wellbeing: tcwellbeing.text.isEmpty ? "" : tcwellbeing.text,
-                              comment: tcComment.text.isEmpty ? "" : tcComment.text,
+                              pulse: int.parse(
+                                  tcPulse.text.isEmpty ? "0" : tcPulse.text),
+                              wellbeing: tcwellbeing.text.isEmpty
+                                  ? ""
+                                  : tcwellbeing.text,
+                              comment:
+                                  tcComment.text.isEmpty ? "" : tcComment.text,
                               dates: tcDates.text.isEmpty ? "" : tcDates.text,
                               times: tcTimes.text.isEmpty ? "" : tcTimes.text,
                             );
@@ -364,7 +406,9 @@ class _DataScreenState extends State<DataScreen> {
                       Navigator.pop(context);
                     }
                   },
-                  child: isNew == 1 ? const Text("Добавить") : const Text("Сохранить"),
+                  child: isNew == 1
+                      ? const Text("Добавить")
+                      : const Text("Сохранить"),
                 )
               ],
             ));
@@ -380,6 +424,15 @@ class _DataScreenState extends State<DataScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("DHP: Дневник давления и пульса"),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: IconButton(
+              onPressed: () {},
+              icon: const Icon(Icons.filter_alt_outlined),
+            ),
+          )
+        ],
       ),
       body: SafeArea(
         child: Center(
@@ -405,16 +458,20 @@ class _DataScreenState extends State<DataScreen> {
                         : GroupedListView<dynamic, String>(
                             elements: dhpsMap,
                             groupBy: (dhpsMap) => dhpsMap['dates'],
-                            groupComparator: (value1, value2) => value2.compareTo(value1),
-                            itemComparator: (item1, item2) => item1['times'].compareTo(item2['dates']),
+                            groupComparator: (value1, value2) =>
+                                value2.compareTo(value1),
+                            itemComparator: (item1, item2) =>
+                                item1['times'].compareTo(item2['dates']),
                             order: GroupedListOrder.ASC,
                             useStickyGroupSeparators: true,
                             groupSeparatorBuilder: (String value) => Padding(
-                              padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+                              padding:
+                                  const EdgeInsets.only(left: 8.0, right: 8.0),
                               child: Text(
                                 value,
                                 textAlign: TextAlign.left,
-                                style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                                style: const TextStyle(
+                                    fontSize: 14, fontWeight: FontWeight.bold),
                               ),
                             ),
                             itemBuilder: (context, element) {
@@ -423,13 +480,17 @@ class _DataScreenState extends State<DataScreen> {
                                 child: Dismissible(
                                   key: Key(element['id']),
                                   direction: DismissDirection.endToStart,
-                                  confirmDismiss: (DismissDirection direction) async {
+                                  confirmDismiss:
+                                      (DismissDirection direction) async {
                                     return await showDialog(
                                         context: context,
                                         builder: (BuildContext context) {
                                           return AlertDialog(
-                                            title: const Text("Удалить текущую запись?"),
-                                            shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10.0))),
+                                            title: const Text(
+                                                "Удалить текущую запись?"),
+                                            shape: const RoundedRectangleBorder(
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(10.0))),
                                             actions: [
                                               MaterialButton(
                                                 onPressed: () async {
@@ -439,7 +500,8 @@ class _DataScreenState extends State<DataScreen> {
                                               ),
                                               MaterialButton(
                                                 onPressed: () {
-                                                  dhpDb.deleteData(int.parse(element['id']));
+                                                  dhpDb.deleteData(
+                                                      int.parse(element['id']));
                                                   fetchDhp();
                                                   Navigator.of(context).pop();
                                                 },
@@ -452,7 +514,8 @@ class _DataScreenState extends State<DataScreen> {
                                   background: Container(
                                     alignment: Alignment.centerRight,
                                     color: Colors.red,
-                                    margin: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 8.0),
+                                    margin: const EdgeInsets.only(
+                                        left: 8.0, right: 8.0, bottom: 8.0),
                                     child: const Padding(
                                       padding: EdgeInsets.all(20.0),
                                       child: Icon(
@@ -466,16 +529,25 @@ class _DataScreenState extends State<DataScreen> {
                                       borderRadius: BorderRadius.circular(4.0),
                                     ),
                                     elevation: 2.0,
-                                    margin: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 8.0),
+                                    margin: const EdgeInsets.only(
+                                        left: 8.0, right: 8.0, bottom: 8.0),
                                     child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
                                       children: [
                                         Expanded(
                                           child: Container(
                                             decoration: BoxDecoration(
-                                              borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(4), topLeft: Radius.circular(4)),
-                                              color: colorFromHex(element['dhpcolor']),
+                                              borderRadius:
+                                                  const BorderRadius.only(
+                                                      bottomLeft:
+                                                          Radius.circular(4),
+                                                      topLeft:
+                                                          Radius.circular(4)),
+                                              color: colorFromHex(
+                                                  element['dhpcolor']),
                                             ),
                                             child: const Column(
                                               children: [
@@ -490,38 +562,52 @@ class _DataScreenState extends State<DataScreen> {
                                         Expanded(
                                           flex: 30,
                                           child: Row(
-                                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                            crossAxisAlignment: CrossAxisAlignment.center,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceAround,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
                                             children: [
                                               SizedBox(
                                                 width: 60,
                                                 child: Padding(
-                                                  padding: const EdgeInsets.all(8.0),
+                                                  padding:
+                                                      const EdgeInsets.all(8.0),
                                                   child: Text(
                                                     element['times'],
-                                                    style: const TextStyle(fontWeight: FontWeight.w500),
+                                                    style: const TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.w500),
                                                   ),
                                                 ),
                                               ),
                                               Expanded(
                                                 child: Padding(
-                                                  padding: const EdgeInsets.only(left: 8, right: 8),
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          left: 8, right: 8),
                                                   child: Column(
-                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
                                                     children: [
                                                       Row(
                                                         children: [
                                                           const Text(
                                                             "Давление : ",
-                                                            style: TextStyle(fontWeight: FontWeight.w600),
+                                                            style: TextStyle(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w600),
                                                           ),
-                                                          Text("${element['syst']} / ${element['dist']}"),
+                                                          Text(
+                                                              "${element['syst']} / ${element['dist']}"),
                                                         ],
                                                       ),
                                                       Text(
                                                         "${element['dhpname']}",
                                                         style: const TextStyle(
-                                                          fontStyle: FontStyle.italic,
+                                                          fontStyle:
+                                                              FontStyle.italic,
                                                           fontSize: 10,
                                                         ),
                                                       ),
@@ -529,18 +615,29 @@ class _DataScreenState extends State<DataScreen> {
                                                         children: [
                                                           const Text(
                                                             "Пульс : ",
-                                                            style: TextStyle(fontWeight: FontWeight.w600),
+                                                            style: TextStyle(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w600),
                                                           ),
-                                                          Text(element['pulse'] == "0" ? "" : "${element['pulse']}"),
+                                                          Text(element[
+                                                                      'pulse'] ==
+                                                                  "0"
+                                                              ? ""
+                                                              : "${element['pulse']}"),
                                                         ],
                                                       ),
                                                       Row(
                                                         children: [
                                                           const Text(
                                                             "Самочуствие : ",
-                                                            style: TextStyle(fontWeight: FontWeight.w600),
+                                                            style: TextStyle(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w600),
                                                           ),
-                                                          Text("${element['wellbeing']}"),
+                                                          Text(
+                                                              "${element['wellbeing']}"),
                                                         ],
                                                       ),
                                                     ],
@@ -553,8 +650,14 @@ class _DataScreenState extends State<DataScreen> {
                                         Expanded(
                                           child: Container(
                                             decoration: BoxDecoration(
-                                              borderRadius: const BorderRadius.only(bottomRight: Radius.circular(4), topRight: Radius.circular(4)),
-                                              color: colorFromHex(element['dhpcolor']),
+                                              borderRadius:
+                                                  const BorderRadius.only(
+                                                      bottomRight:
+                                                          Radius.circular(4),
+                                                      topRight:
+                                                          Radius.circular(4)),
+                                              color: colorFromHex(
+                                                  element['dhpcolor']),
                                             ),
                                             child: const Column(
                                               children: [
