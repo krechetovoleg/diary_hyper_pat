@@ -1,9 +1,12 @@
 import 'package:diary_hyper_pat/database/dhp_db.dart';
 import 'package:diary_hyper_pat/database/dhpfilter_db.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:path/path.dart';
 
 class DatabaseService {
+  static final DatabaseService _databaseService = DatabaseService._internal();
+  factory DatabaseService() => _databaseService;
+  DatabaseService._internal();
+
   Database? _database;
 
   Future<Database> get database async {
@@ -15,20 +18,14 @@ class DatabaseService {
   }
 }
 
-Future<String> get fullPath async {
-  const dbname = "dhp.db";
-  final path = await getDatabasesPath();
-  return join(path, dbname);
-}
-
 Future<Database> _initialize() async {
-  final path = await fullPath;
-  var db = await openDatabase(path,
-      version: 1, singleInstance: true, onCreate: _createDB);
+  final getDirectory = await getDatabasesPath();
+  final path = "$getDirectory/dhp.db";
+  var db = await openDatabase(path, version: 1, singleInstance: true, onCreate: _createDB);
   return db;
 }
 
-Future<void> _createDB(Database db, int version) async {
-  await DhpDB().createTable(db);
+void _createDB(Database db, int version) async {
   await DhpFilterDB().createTable(db);
+  await DhpDB().createTable(db);
 }
