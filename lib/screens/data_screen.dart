@@ -1,5 +1,9 @@
+import 'dart:developer';
 import 'package:diary_hyper_pat/database/dhp_db.dart';
+import 'package:diary_hyper_pat/database/dhpfilter_db.dart';
+import 'package:diary_hyper_pat/models/dhp_filter_model.dart';
 import 'package:diary_hyper_pat/models/dhp_model.dart';
+import 'package:group_button/group_button.dart';
 import 'package:grouped_list/grouped_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -14,8 +18,11 @@ class DataScreen extends StatefulWidget {
 
 class _DataScreenState extends State<DataScreen> {
   Future<List<Dhp>>? futureDhp;
+
   final dhpDb = DhpDB();
+  final dhpFilterDb = DhpFilterDB();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _formKeyFil = GlobalKey<FormState>();
   var wellbeingList = [
     'Отличное',
     'Хорошее',
@@ -24,6 +31,8 @@ class _DataScreenState extends State<DataScreen> {
     'Очень плохое'
   ];
   int isNew = 1;
+  bool isVisiblePeriod = false;
+  int changeFil = 0;
 
   TextEditingController tcSyst = TextEditingController();
   TextEditingController tcDist = TextEditingController();
@@ -32,20 +41,49 @@ class _DataScreenState extends State<DataScreen> {
   TextEditingController tcComment = TextEditingController();
   TextEditingController tcDates = TextEditingController();
   TextEditingController tcTimes = TextEditingController();
+  TextEditingController tcFiltDFrom = TextEditingController();
+  TextEditingController tcFiltDto = TextEditingController();
+
+  GroupButtonController filterCont = GroupButtonController();
+
+  final listFilButt = [
+    'Все',
+    'Последние 30 дней',
+    'Последние 7 дней',
+    'Период'
+  ];
+
+  DhpFiltrer? futureFilterDhp;
 
   @override
   void initState() {
     super.initState();
+
+/*
+    filterCont = GroupButtonController(
+      selectedIndex: changeFil,
+    );*/
+
+    //
+
+    changeFil == 3 ? isVisiblePeriod = true : isVisiblePeriod == false;
+    isVisiblePeriod = false;
     fetchDhp();
   }
 
   void fetchDhp() {
     setState(() {
+      dhpFilterDb.fetchDhpFilter().then((value) {
+        futureFilterDhp = value;
+      });
+
+      log(futureFilterDhp.toString());
+
       futureDhp = dhpDb.fetchAllData();
     });
   }
 
-  Future<void> selectDate() async {
+  Future<void> selectDate(TextEditingController tec) async {
     DateTime? selected = await showDatePicker(
       context: context,
       initialDate: DateTime.now(),
@@ -56,7 +94,7 @@ class _DataScreenState extends State<DataScreen> {
 
     if (selected != null) {
       setState(() {
-        tcDates.text = DateFormat('dd.MM.yyyy').format(selected);
+        tec.text = DateFormat('dd.MM.yyyy').format(selected);
       });
     }
   }
@@ -75,8 +113,8 @@ class _DataScreenState extends State<DataScreen> {
     }
   }
 
-  void openNewDhpBox(int isNew, Map<String, dynamic>? elements) {
-    double wihth = MediaQuery.of(context).size.width;
+  void showDlgData(int isNew, Map<String, dynamic>? elements) {
+    double width = MediaQuery.of(context).size.width;
 
     if (isNew == 1) {
       tcSyst.clear();
@@ -118,7 +156,7 @@ class _DataScreenState extends State<DataScreen> {
                       ),
                     ),
               content: SizedBox(
-                width: wihth,
+                width: width,
                 child: Form(
                   key: _formKey,
                   child: Column(
@@ -127,10 +165,10 @@ class _DataScreenState extends State<DataScreen> {
                       Row(
                         children: [
                           SizedBox(
-                            width: wihth * 0.39,
+                            width: width * 0.39,
                             child: TextFormField(
                               controller: tcDates,
-                              onTap: () => selectDate(),
+                              onTap: () => selectDate(tcDates),
                               readOnly: true,
                               decoration: const InputDecoration(
                                 border: OutlineInputBorder(),
@@ -161,7 +199,7 @@ class _DataScreenState extends State<DataScreen> {
                             width: 10,
                           ),
                           SizedBox(
-                            width: wihth * 0.39,
+                            width: width * 0.39,
                             child: TextFormField(
                               controller: tcTimes,
                               onTap: () => selectTime(),
@@ -197,7 +235,7 @@ class _DataScreenState extends State<DataScreen> {
                       Row(
                         children: [
                           SizedBox(
-                            width: wihth * 0.25,
+                            width: width * 0.25,
                             child: TextFormField(
                               controller: tcSyst,
                               decoration: const InputDecoration(
@@ -229,7 +267,7 @@ class _DataScreenState extends State<DataScreen> {
                             width: 10,
                           ),
                           SizedBox(
-                            width: wihth * 0.25,
+                            width: width * 0.25,
                             child: TextFormField(
                               controller: tcDist,
                               decoration: const InputDecoration(
@@ -261,7 +299,7 @@ class _DataScreenState extends State<DataScreen> {
                             width: 10,
                           ),
                           SizedBox(
-                            width: wihth * 0.25,
+                            width: width * 0.25,
                             child: TextFormField(
                               controller: tcPulse,
                               decoration: const InputDecoration(
@@ -291,7 +329,7 @@ class _DataScreenState extends State<DataScreen> {
                       Row(
                         children: [
                           SizedBox(
-                            width: wihth * 0.8,
+                            width: width * 0.8,
                             child: TextFormField(
                               controller: tcwellbeing,
                               decoration: InputDecoration(
@@ -311,7 +349,7 @@ class _DataScreenState extends State<DataScreen> {
                                     tcwellbeing.text = value;
                                   },
                                   constraints:
-                                      BoxConstraints(minWidth: wihth * 0.8),
+                                      BoxConstraints(minWidth: width * 0.8),
                                   itemBuilder: (BuildContext context) {
                                     return wellbeingList
                                         .map<PopupMenuItem<String>>(
@@ -333,7 +371,7 @@ class _DataScreenState extends State<DataScreen> {
                       Row(
                         children: [
                           SizedBox(
-                            width: wihth * 0.8,
+                            width: width * 0.8,
                             child: TextFormField(
                               controller: tcComment,
                               decoration: const InputDecoration(
@@ -419,6 +457,153 @@ class _DataScreenState extends State<DataScreen> {
     return Color(int.parse('FF$hexCode', radix: 16));
   }
 
+  void showDlgFilter() {
+    double width = MediaQuery.of(context).size.width;
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return StatefulBuilder(
+          builder: (context, setState) {
+            return AlertDialog(
+              shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(10.0))),
+              insetPadding: const EdgeInsets.all(10),
+              title: const Text(
+                "Какие записи показать?",
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                ),
+              ),
+              content: SizedBox(
+                width: width,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    GroupButton(
+                        controller: filterCont,
+                        isRadio: true,
+                        options: const GroupButtonOptions(
+                          groupingType: GroupingType.column,
+                        ),
+                        buttons: listFilButt,
+                        buttonIndexedBuilder: (selected, index, context) {
+                          return RadioTile(
+                            title: listFilButt[index],
+                            selected: filterCont.selectedIndex,
+                            index: index,
+                            onTap: () {
+                              filterCont.selectIndex(index);
+                              setState(() {
+                                if (index == 3) {
+                                  isVisiblePeriod = true;
+                                  log(isVisiblePeriod.toString());
+                                } else {
+                                  isVisiblePeriod = false;
+                                  log(isVisiblePeriod.toString());
+                                }
+                              });
+                            },
+                          );
+                        }),
+                    const SizedBox(
+                      height: 10.0,
+                    ),
+                    Visibility(
+                      visible: isVisiblePeriod,
+                      child: Form(
+                        key: _formKeyFil,
+                        child: Row(
+                          children: [
+                            SizedBox(
+                              width: width * 0.39,
+                              child: TextFormField(
+                                controller: tcFiltDFrom,
+                                onTap: () => selectDate(tcFiltDFrom),
+                                readOnly: true,
+                                decoration: const InputDecoration(
+                                  border: OutlineInputBorder(),
+                                  label: Center(
+                                    child: Text(
+                                      "От",
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 14,
+                                      ),
+                                    ),
+                                  ),
+                                  counterText: "",
+                                ),
+                                validator: (value) =>
+                                    value == null || value.isEmpty
+                                        ? 'Заполните'
+                                        : null,
+                                textAlign: TextAlign.center,
+                                keyboardType: TextInputType.number,
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.digitsOnly
+                                ],
+                                maxLength: 3,
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            SizedBox(
+                              width: width * 0.39,
+                              child: TextFormField(
+                                controller: tcFiltDto,
+                                onTap: () => selectDate(tcFiltDto),
+                                readOnly: true,
+                                decoration: const InputDecoration(
+                                  border: OutlineInputBorder(),
+                                  label: Center(
+                                    child: Text(
+                                      "До",
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 14,
+                                      ),
+                                    ),
+                                  ),
+                                  counterText: "",
+                                ),
+                                validator: (value) =>
+                                    value == null || value.isEmpty
+                                        ? 'Заполните'
+                                        : null,
+                                textAlign: TextAlign.center,
+                                keyboardType: TextInputType.number,
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.digitsOnly
+                                ],
+                                maxLength: 3,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              actions: [
+                MaterialButton(
+                  onPressed: () {
+                    fetchDhp();
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text("Применить"),
+                )
+              ],
+            );
+          },
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -428,7 +613,7 @@ class _DataScreenState extends State<DataScreen> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: IconButton(
-              onPressed: () {},
+              onPressed: () => showDlgFilter(),
               icon: const Icon(Icons.filter_alt_outlined),
             ),
           )
@@ -476,7 +661,7 @@ class _DataScreenState extends State<DataScreen> {
                             ),
                             itemBuilder: (context, element) {
                               return GestureDetector(
-                                onTap: () => openNewDhpBox(0, element),
+                                onTap: () => showDlgData(0, element),
                                 child: Dismissible(
                                   key: Key(element['id']),
                                   direction: DismissDirection.endToStart,
@@ -694,8 +879,38 @@ class _DataScreenState extends State<DataScreen> {
       floatingActionButton: FloatingActionButton(
         backgroundColor: Theme.of(context).colorScheme.primary,
         foregroundColor: Colors.white,
-        onPressed: () => openNewDhpBox(1, null),
+        onPressed: () => showDlgData(1, null),
         child: const Icon(Icons.add),
+      ),
+    );
+  }
+}
+
+class RadioTile extends StatelessWidget {
+  const RadioTile({
+    Key? key,
+    required this.selected,
+    required this.onTap,
+    required this.index,
+    required this.title,
+  }) : super(key: key);
+
+  final String title;
+  final int index;
+  final int? selected;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      title: Text(title),
+      onTap: onTap,
+      leading: Radio<int>(
+        groupValue: selected,
+        value: index,
+        onChanged: (val) {
+          onTap();
+        },
       ),
     );
   }

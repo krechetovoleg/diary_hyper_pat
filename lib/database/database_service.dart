@@ -1,4 +1,5 @@
 import 'package:diary_hyper_pat/database/dhp_db.dart';
+import 'package:diary_hyper_pat/database/dhpfilter_db.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
@@ -22,10 +23,12 @@ Future<String> get fullPath async {
 
 Future<Database> _initialize() async {
   final path = await fullPath;
-  var db = await openDatabase(path, version: 1, singleInstance: true, onCreate: _createDB);
+  var db = await openDatabase(path,
+      version: 1, singleInstance: true, onCreate: _createDB);
   return db;
 }
 
 Future<void> _createDB(Database db, int version) async {
   await DhpDB().createTable(db);
+  await DhpFilterDB().createTable(db);
 }
