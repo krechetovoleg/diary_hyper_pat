@@ -414,6 +414,9 @@ class _DataScreenState extends State<DataScreen> {
                                   tcComment.text.isEmpty ? "" : tcComment.text,
                               dates: tcDates.text.isEmpty ? "" : tcDates.text,
                               times: tcTimes.text.isEmpty ? "" : tcTimes.text,
+                              sort: DateTime.parse(
+                                      '${tcDates.text.substring(6, 10)}-${tcDates.text.substring(3, 5)}-${tcDates.text.substring(0, 2)}')
+                                  .millisecondsSinceEpoch,
                             )
                           : dhpDb.updateData(
                               id: int.parse(elements?['id']),
@@ -428,6 +431,9 @@ class _DataScreenState extends State<DataScreen> {
                                   tcComment.text.isEmpty ? "" : tcComment.text,
                               dates: tcDates.text.isEmpty ? "" : tcDates.text,
                               times: tcTimes.text.isEmpty ? "" : tcTimes.text,
+                              sort: DateTime.parse(
+                                      '${tcDates.text.substring(6, 10)}-${tcDates.text.substring(3, 5)}-${tcDates.text.substring(0, 2)}')
+                                  .millisecondsSinceEpoch,
                             );
 
                       fetchDhp();
@@ -449,6 +455,9 @@ class _DataScreenState extends State<DataScreen> {
 
   void showDlgFilter() {
     double width = MediaQuery.of(context).size.width;
+    tcFiltDFrom.text = futureFilterDhp?.dfrom ?? "";
+    tcFiltDto.text = futureFilterDhp?.dto ?? "";
+
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -617,7 +626,7 @@ class _DataScreenState extends State<DataScreen> {
             children: [
               Text(
                 futureFilterDhp?.id != 3
-                    ? futureFilterDhp!.type
+                    ? futureFilterDhp?.type ?? ""
                     : "${futureFilterDhp!.type} ${futureFilterDhp!.dfrom} - ${futureFilterDhp!.dto}",
                 style: const TextStyle(
                   fontSize: 15.0,
@@ -646,7 +655,8 @@ class _DataScreenState extends State<DataScreen> {
                                 ))
                               : GroupedListView<dynamic, String>(
                                   elements: dhpsMap,
-                                  groupBy: (dhpsMap) => dhpsMap['dates'],
+                                  groupBy: (dhpsMap) =>
+                                      dhpsMap['sort'].toString(),
                                   groupComparator: (value1, value2) =>
                                       value2.compareTo(value1),
                                   itemComparator: (item1, item2) =>
@@ -656,13 +666,16 @@ class _DataScreenState extends State<DataScreen> {
                                   groupSeparatorBuilder: (String value) =>
                                       Padding(
                                     padding: const EdgeInsets.only(
-                                        left: 8.0, right: 8.0),
+                                      left: 8.0,
+                                      right: 8.0,
+                                    ),
                                     child: Text(
                                       value,
                                       textAlign: TextAlign.left,
                                       style: const TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.bold),
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold,
+                                      ),
                                     ),
                                   ),
                                   itemBuilder: (context, element) {
@@ -779,7 +792,9 @@ class _DataScreenState extends State<DataScreen> {
                                                             const EdgeInsets
                                                                 .all(8.0),
                                                         child: Text(
-                                                          element['times'],
+                                                          element['times'] +
+                                                              '-' +
+                                                              element['dates'],
                                                           style: const TextStyle(
                                                               fontWeight:
                                                                   FontWeight
@@ -831,11 +846,12 @@ class _DataScreenState extends State<DataScreen> {
                                                                           FontWeight
                                                                               .w600),
                                                                 ),
-                                                                Text(element[
-                                                                            'pulse'] ==
-                                                                        "0"
-                                                                    ? ""
-                                                                    : "${element['pulse']}"),
+                                                                Text(
+                                                                  element['pulse'] ==
+                                                                          "0"
+                                                                      ? ""
+                                                                      : "${element['pulse']}",
+                                                                ),
                                                               ],
                                                             ),
                                                             Row(
@@ -848,7 +864,8 @@ class _DataScreenState extends State<DataScreen> {
                                                                               .w600),
                                                                 ),
                                                                 Text(
-                                                                    "${element['wellbeing']}"),
+                                                                  "${element['wellbeing']}",
+                                                                ),
                                                               ],
                                                             ),
                                                           ],

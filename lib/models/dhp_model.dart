@@ -9,19 +9,20 @@ class Dhp {
   String times = "";
   String dhpcolor = "";
   String dhpname = "";
+  int sort = 0;
 
-  Dhp({
-    required this.id,
-    required this.syst,
-    required this.dist,
-    required this.pulse,
-    required this.wellbeing,
-    required this.comment,
-    required this.dates,
-    required this.times,
-    required this.dhpcolor,
-    required this.dhpname,
-  });
+  Dhp(
+      {required this.id,
+      required this.syst,
+      required this.dist,
+      required this.pulse,
+      required this.wellbeing,
+      required this.comment,
+      required this.dates,
+      required this.times,
+      required this.dhpcolor,
+      required this.dhpname,
+      required this.sort});
 
   factory Dhp.fromJson(Map<String, dynamic> json) => Dhp(
         id: json['id'] ?? 0,
@@ -34,6 +35,7 @@ class Dhp {
         times: json['times'] ?? '',
         dhpcolor: json['dhpcolor'] ?? '',
         dhpname: json['dhpname'] ?? '',
+        sort: json['sort'] ?? 0,
       );
 
   static List<Map<String, dynamic>> fetchData(List dhps) {
@@ -50,6 +52,7 @@ class Dhp {
               'times': s.times,
               'dhpcolor': s.dhpcolor,
               'dhpname': s.dhpname,
+              'sort': s.sort
             })
         .toList();
     return datas;
