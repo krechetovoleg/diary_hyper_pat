@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'package:diary_hyper_pat/database/dhp_db.dart';
 import 'package:diary_hyper_pat/database/dhpfilter_db.dart';
 import 'package:diary_hyper_pat/models/dhp_filter_model.dart';
@@ -23,7 +22,13 @@ class _DataScreenState extends State<DataScreen> {
   final dhpFilterDb = DhpFilterDB();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final GlobalKey<FormState> _formKeyFil = GlobalKey<FormState>();
-  var wellbeingList = ['Отличное', 'Хорошее', 'Нормальное', 'Плохое', 'Очень плохое'];
+  var wellbeingList = [
+    'Отличное',
+    'Хорошее',
+    'Нормальное',
+    'Плохое',
+    'Очень плохое'
+  ];
   int isNew = 1;
   bool isVisiblePeriod = false;
   int changeFil = 0;
@@ -40,47 +45,42 @@ class _DataScreenState extends State<DataScreen> {
 
   GroupButtonController filterCont = GroupButtonController();
 
-  final listFilButt = ['Все', 'Последние 30 дней', 'Последние 7 дней', 'Период'];
+  final listFilButt = [
+    'Все',
+    'Последние 30 дней',
+    'Последние 7 дней',
+    'Период'
+  ];
 
   DhpFiltrer? futureFilterDhp;
 
   @override
   void initState() {
-    super.initState();
-    dhpFilterDb.fetchDhpFilter().then((value) {
-      futureFilterDhp = value;
-    });
-
-    if (futureFilterDhp?.id != null) {
-      futureFilterDhp!.id == 3 ? isVisiblePeriod = true : isVisiblePeriod = false;
-    } else {
-      isVisiblePeriod = false;
-    }
-
-    isVisiblePeriod = false;
     fetchDhp();
+    super.initState();
   }
 
   void fetchDhp() {
-    setState(
-      () {
-        dhpFilterDb.fetchDhpFilter().then((value) {
-          futureFilterDhp = value;
-        });
+    dhpFilterDb.fetchDhpFilter().then((value) {
+      setState(() {
+        futureFilterDhp = value;
 
         if (futureFilterDhp?.id != null) {
           filterCont = GroupButtonController(
             selectedIndex: futureFilterDhp!.id,
           );
+          futureFilterDhp!.id == 3
+              ? isVisiblePeriod = true
+              : isVisiblePeriod = false;
         } else {
           filterCont = GroupButtonController(
             selectedIndex: 0,
           );
+          isVisiblePeriod = false;
         }
-
-        futureDhp = dhpDb.fetchAllData();
-      },
-    );
+      });
+    });
+    futureDhp = dhpDb.fetchAllData();
   }
 
   Future<void> selectDate(TextEditingController tec) async {
@@ -107,7 +107,8 @@ class _DataScreenState extends State<DataScreen> {
 
     if (selected != null) {
       setState(() {
-        tcTimes.text = "${selected.hour.toString().padLeft(2, '0')} : ${selected.minute.toString().padLeft(2, '0')}";
+        tcTimes.text =
+            "${selected.hour.toString().padLeft(2, '0')} : ${selected.minute.toString().padLeft(2, '0')}";
       });
     }
   }
@@ -136,7 +137,8 @@ class _DataScreenState extends State<DataScreen> {
     showDialog(
         context: context,
         builder: (context) => AlertDialog(
-              shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10.0))),
+              shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(10.0))),
               insetPadding: const EdgeInsets.all(10),
               title: isNew == 1
                   ? const Text(
@@ -181,11 +183,11 @@ class _DataScreenState extends State<DataScreen> {
                                 ),
                                 counterText: "",
                               ),
-                              validator: (value) => value == null || value.isEmpty ? 'Заполните' : null,
+                              validator: (value) =>
+                                  value == null || value.isEmpty
+                                      ? 'Заполните'
+                                      : null,
                               textAlign: TextAlign.center,
-                              keyboardType: TextInputType.number,
-                              inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                              maxLength: 3,
                             ),
                           ),
                           const SizedBox(
@@ -210,11 +212,11 @@ class _DataScreenState extends State<DataScreen> {
                                 ),
                                 counterText: "",
                               ),
-                              validator: (value) => value == null || value.isEmpty ? 'Заполните' : null,
+                              validator: (value) =>
+                                  value == null || value.isEmpty
+                                      ? 'Заполните'
+                                      : null,
                               textAlign: TextAlign.center,
-                              keyboardType: TextInputType.number,
-                              inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                              maxLength: 3,
                             ),
                           ),
                         ],
@@ -239,10 +241,15 @@ class _DataScreenState extends State<DataScreen> {
                                 ),
                                 counterText: "",
                               ),
-                              validator: (value) => value == null || value.isEmpty ? 'Заполните' : null,
+                              validator: (value) =>
+                                  value == null || value.isEmpty
+                                      ? 'Заполните'
+                                      : null,
                               textAlign: TextAlign.center,
                               keyboardType: TextInputType.number,
-                              inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                              inputFormatters: [
+                                FilteringTextInputFormatter.digitsOnly
+                              ],
                               maxLength: 3,
                             ),
                           ),
@@ -266,10 +273,15 @@ class _DataScreenState extends State<DataScreen> {
                                 ),
                                 counterText: "",
                               ),
-                              validator: (value) => value == null || value.isEmpty ? 'Заполните' : null,
+                              validator: (value) =>
+                                  value == null || value.isEmpty
+                                      ? 'Заполните'
+                                      : null,
                               textAlign: TextAlign.center,
                               keyboardType: TextInputType.number,
-                              inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                              inputFormatters: [
+                                FilteringTextInputFormatter.digitsOnly
+                              ],
                               maxLength: 3,
                             ),
                           ),
@@ -295,7 +307,9 @@ class _DataScreenState extends State<DataScreen> {
                               ),
                               textAlign: TextAlign.center,
                               keyboardType: TextInputType.number,
-                              inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                              inputFormatters: [
+                                FilteringTextInputFormatter.digitsOnly
+                              ],
                               maxLength: 3,
                             ),
                           ),
@@ -324,10 +338,14 @@ class _DataScreenState extends State<DataScreen> {
                                   onSelected: (String value) {
                                     tcwellbeing.text = value;
                                   },
-                                  constraints: BoxConstraints(minWidth: width * 0.8),
+                                  constraints:
+                                      BoxConstraints(minWidth: width * 0.8),
                                   itemBuilder: (BuildContext context) {
-                                    return wellbeingList.map<PopupMenuItem<String>>((String value) {
-                                      return PopupMenuItem(value: value, child: Text(value));
+                                    return wellbeingList
+                                        .map<PopupMenuItem<String>>(
+                                            (String value) {
+                                      return PopupMenuItem(
+                                          value: value, child: Text(value));
                                     }).toList();
                                   },
                                 ),
@@ -387,9 +405,13 @@ class _DataScreenState extends State<DataScreen> {
                           ? dhpDb.insertData(
                               syst: int.parse(tcSyst.text),
                               dist: int.parse(tcDist.text),
-                              pulse: int.parse(tcPulse.text.isEmpty ? "0" : tcPulse.text),
-                              wellbeing: tcwellbeing.text.isEmpty ? "" : tcwellbeing.text,
-                              comment: tcComment.text.isEmpty ? "" : tcComment.text,
+                              pulse: int.parse(
+                                  tcPulse.text.isEmpty ? "0" : tcPulse.text),
+                              wellbeing: tcwellbeing.text.isEmpty
+                                  ? ""
+                                  : tcwellbeing.text,
+                              comment:
+                                  tcComment.text.isEmpty ? "" : tcComment.text,
                               dates: tcDates.text.isEmpty ? "" : tcDates.text,
                               times: tcTimes.text.isEmpty ? "" : tcTimes.text,
                             )
@@ -397,9 +419,13 @@ class _DataScreenState extends State<DataScreen> {
                               id: int.parse(elements?['id']),
                               syst: int.parse(tcSyst.text),
                               dist: int.parse(tcDist.text),
-                              pulse: int.parse(tcPulse.text.isEmpty ? "0" : tcPulse.text),
-                              wellbeing: tcwellbeing.text.isEmpty ? "" : tcwellbeing.text,
-                              comment: tcComment.text.isEmpty ? "" : tcComment.text,
+                              pulse: int.parse(
+                                  tcPulse.text.isEmpty ? "0" : tcPulse.text),
+                              wellbeing: tcwellbeing.text.isEmpty
+                                  ? ""
+                                  : tcwellbeing.text,
+                              comment:
+                                  tcComment.text.isEmpty ? "" : tcComment.text,
                               dates: tcDates.text.isEmpty ? "" : tcDates.text,
                               times: tcTimes.text.isEmpty ? "" : tcTimes.text,
                             );
@@ -408,7 +434,9 @@ class _DataScreenState extends State<DataScreen> {
                       Navigator.pop(context);
                     }
                   },
-                  child: isNew == 1 ? const Text("Добавить") : const Text("Сохранить"),
+                  child: isNew == 1
+                      ? const Text("Добавить")
+                      : const Text("Сохранить"),
                 )
               ],
             ));
@@ -427,7 +455,8 @@ class _DataScreenState extends State<DataScreen> {
         return StatefulBuilder(
           builder: (context, setState) {
             return AlertDialog(
-              shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10.0))),
+              shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(10.0))),
               insetPadding: const EdgeInsets.all(10),
               title: const Text(
                 "Какие записи показать?",
@@ -458,11 +487,14 @@ class _DataScreenState extends State<DataScreen> {
                               filterCont.selectIndex(index);
                               setState(() {
                                 if (index == 3) {
+                                  tcFiltDFrom.text = DateFormat('dd.MM.yyyy')
+                                      .format(DateTime.now());
+                                  tcFiltDto.text = DateFormat('dd.MM.yyyy')
+                                      .format(DateTime.now());
+
                                   isVisiblePeriod = true;
-                                  log(isVisiblePeriod.toString());
                                 } else {
                                   isVisiblePeriod = false;
-                                  log(isVisiblePeriod.toString());
                                 }
                               });
                             },
@@ -496,11 +528,11 @@ class _DataScreenState extends State<DataScreen> {
                                   ),
                                   counterText: "",
                                 ),
-                                validator: (value) => value == null || value.isEmpty ? 'Заполните' : null,
+                                validator: (value) =>
+                                    value == null || value.isEmpty
+                                        ? 'Заполните'
+                                        : null,
                                 textAlign: TextAlign.center,
-                                keyboardType: TextInputType.number,
-                                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                                maxLength: 3,
                               ),
                             ),
                             const SizedBox(
@@ -525,11 +557,11 @@ class _DataScreenState extends State<DataScreen> {
                                   ),
                                   counterText: "",
                                 ),
-                                validator: (value) => value == null || value.isEmpty ? 'Заполните' : null,
+                                validator: (value) =>
+                                    value == null || value.isEmpty
+                                        ? 'Заполните'
+                                        : null,
                                 textAlign: TextAlign.center,
-                                keyboardType: TextInputType.number,
-                                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                                maxLength: 3,
                               ),
                             ),
                           ],
@@ -541,27 +573,15 @@ class _DataScreenState extends State<DataScreen> {
               ),
               actions: [
                 MaterialButton(
-                  onPressed: () async {
-                    /*if (filterCont.selectedIndex == 3) {
-                      if (_formKeyFil.currentState!.validate()) {
-                        dhpFilterDb.updateData(
-                          id: filterCont.selectedIndex ?? 0,
-                          defaults: 1,
-                          dfrom: tcwellbeing.text.isEmpty ? "" : tcwellbeing.text,
-                          dto: tcComment.text.isEmpty ? "" : tcComment.text,
-                        );
-                      } else {*/
-                    await dhpFilterDb.updateData(
+                  onPressed: () {
+                    dhpFilterDb.updateData(
                       id: filterCont.selectedIndex ?? 0,
-                      defaults: 1,
-                      dfrom: tcwellbeing.text.isEmpty ? "" : tcwellbeing.text,
-                      dto: tcComment.text.isEmpty ? "" : tcComment.text,
+                      dfrom: tcFiltDFrom.text.isEmpty ? "" : tcFiltDFrom.text,
+                      dto: tcFiltDto.text.isEmpty ? "" : tcFiltDto.text,
                     );
-                    //}
 
                     fetchDhp();
                     Navigator.pop(context);
-                    //}
                   },
                   child: const Text("Применить"),
                 )
@@ -577,7 +597,10 @@ class _DataScreenState extends State<DataScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("DHP: Дневник давления и пульса"),
+        title: const Text(
+          "DHP: Дневник давления и пульса",
+          style: TextStyle(fontSize: 18, fontWeight: FontWeight.w800),
+        ),
         actions: [
           Padding(
             padding: const EdgeInsets.all(8.0),
@@ -590,211 +613,295 @@ class _DataScreenState extends State<DataScreen> {
       ),
       body: SafeArea(
         child: Center(
-          child: Row(
+          child: Column(
             children: [
-              Text(futureFilterDhp?.type ?? ""),
-              FutureBuilder<List<Dhp>>(
-                  future: futureDhp,
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const Center(child: CircularProgressIndicator());
-                    } else {
-                      if (snapshot.data != null) {
-                        final dhps = snapshot.data!;
-                        final dhpsMap = Dhp.fetchData(dhps);
+              Text(
+                futureFilterDhp?.id != 3
+                    ? futureFilterDhp!.type
+                    : "${futureFilterDhp!.type} ${futureFilterDhp!.dfrom} - ${futureFilterDhp!.dto}",
+                style: const TextStyle(
+                  fontSize: 15.0,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+              Expanded(
+                child: FutureBuilder<List<Dhp>>(
+                    future: futureDhp,
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const Center(child: CircularProgressIndicator());
+                      } else {
+                        if (snapshot.data != null) {
+                          final dhps = snapshot.data!;
+                          final dhpsMap = Dhp.fetchData(dhps);
 
-                        return dhps.isEmpty
-                            ? const Center(
-                                child: Text(
-                                "Нет данных",
-                                style: TextStyle(
-                                  fontSize: 24,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ))
-                            : GroupedListView<dynamic, String>(
-                                elements: dhpsMap,
-                                groupBy: (dhpsMap) => dhpsMap['dates'],
-                                groupComparator: (value1, value2) => value2.compareTo(value1),
-                                itemComparator: (item1, item2) => item1['times'].compareTo(item2['dates']),
-                                order: GroupedListOrder.ASC,
-                                useStickyGroupSeparators: true,
-                                groupSeparatorBuilder: (String value) => Padding(
-                                  padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+                          return dhps.isEmpty
+                              ? const Center(
                                   child: Text(
-                                    value,
-                                    textAlign: TextAlign.left,
-                                    style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                                  "Нет данных",
+                                  style: TextStyle(
+                                    fontSize: 24,
+                                    fontWeight: FontWeight.bold,
                                   ),
-                                ),
-                                itemBuilder: (context, element) {
-                                  return GestureDetector(
-                                    onTap: () => showDlgData(0, element),
-                                    child: Dismissible(
-                                      key: Key(element['id']),
-                                      direction: DismissDirection.endToStart,
-                                      confirmDismiss: (DismissDirection direction) async {
-                                        return await showDialog(
-                                            context: context,
-                                            builder: (BuildContext context) {
-                                              return AlertDialog(
-                                                title: const Text("Удалить текущую запись?"),
-                                                shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10.0))),
-                                                actions: [
-                                                  MaterialButton(
-                                                    onPressed: () async {
-                                                      Navigator.pop(context);
-                                                    },
-                                                    child: const Text("Отмена"),
+                                ))
+                              : GroupedListView<dynamic, String>(
+                                  elements: dhpsMap,
+                                  groupBy: (dhpsMap) => dhpsMap['dates'],
+                                  groupComparator: (value1, value2) =>
+                                      value2.compareTo(value1),
+                                  itemComparator: (item1, item2) =>
+                                      item1['times'].compareTo(item2['dates']),
+                                  order: GroupedListOrder.ASC,
+                                  useStickyGroupSeparators: true,
+                                  groupSeparatorBuilder: (String value) =>
+                                      Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 8.0, right: 8.0),
+                                    child: Text(
+                                      value,
+                                      textAlign: TextAlign.left,
+                                      style: const TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
+                                  itemBuilder: (context, element) {
+                                    return GestureDetector(
+                                      onTap: () => showDlgData(0, element),
+                                      child: Dismissible(
+                                        key: Key(element['id']),
+                                        direction: DismissDirection.endToStart,
+                                        confirmDismiss:
+                                            (DismissDirection direction) async {
+                                          return await showDialog(
+                                              context: context,
+                                              builder: (BuildContext context) {
+                                                return AlertDialog(
+                                                  title: const Text(
+                                                      "Удалить текущую запись?"),
+                                                  shape:
+                                                      const RoundedRectangleBorder(
+                                                          borderRadius:
+                                                              BorderRadius.all(
+                                                                  Radius.circular(
+                                                                      10.0))),
+                                                  actions: [
+                                                    MaterialButton(
+                                                      onPressed: () async {
+                                                        Navigator.pop(context);
+                                                      },
+                                                      child:
+                                                          const Text("Отмена"),
+                                                    ),
+                                                    MaterialButton(
+                                                      onPressed: () {
+                                                        dhpDb.deleteData(
+                                                            int.parse(
+                                                                element['id']));
+                                                        fetchDhp();
+                                                        Navigator.of(context)
+                                                            .pop();
+                                                      },
+                                                      child: const Text("ОК"),
+                                                    )
+                                                  ],
+                                                );
+                                              });
+                                        },
+                                        background: Container(
+                                          alignment: Alignment.centerRight,
+                                          color: Colors.red,
+                                          margin: const EdgeInsets.only(
+                                              left: 8.0,
+                                              right: 8.0,
+                                              bottom: 8.0),
+                                          child: const Padding(
+                                            padding: EdgeInsets.all(20.0),
+                                            child: Icon(
+                                              Icons.delete,
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                        ),
+                                        child: Card(
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(4.0),
+                                          ),
+                                          elevation: 2.0,
+                                          margin: const EdgeInsets.only(
+                                              left: 8.0,
+                                              right: 8.0,
+                                              bottom: 8.0),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: [
+                                              Expanded(
+                                                child: Container(
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        const BorderRadius.only(
+                                                            bottomLeft:
+                                                                Radius.circular(
+                                                                    4),
+                                                            topLeft:
+                                                                Radius.circular(
+                                                                    4)),
+                                                    color: colorFromHex(
+                                                        element['dhpcolor']),
                                                   ),
-                                                  MaterialButton(
-                                                    onPressed: () {
-                                                      dhpDb.deleteData(int.parse(element['id']));
-                                                      fetchDhp();
-                                                      Navigator.of(context).pop();
-                                                    },
-                                                    child: const Text("ОК"),
-                                                  )
-                                                ],
-                                              );
-                                            });
-                                      },
-                                      background: Container(
-                                        alignment: Alignment.centerRight,
-                                        color: Colors.red,
-                                        margin: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 8.0),
-                                        child: const Padding(
-                                          padding: EdgeInsets.all(20.0),
-                                          child: Icon(
-                                            Icons.delete,
-                                            color: Colors.white,
+                                                  child: const Column(
+                                                    children: [
+                                                      Text(""),
+                                                      Text(""),
+                                                      Text(""),
+                                                      Text(""),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                              Expanded(
+                                                flex: 30,
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceAround,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  children: [
+                                                    SizedBox(
+                                                      width: 60,
+                                                      child: Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(8.0),
+                                                        child: Text(
+                                                          element['times'],
+                                                          style: const TextStyle(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    Expanded(
+                                                      child: Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .only(
+                                                                left: 8,
+                                                                right: 8),
+                                                        child: Column(
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                          children: [
+                                                            Row(
+                                                              children: [
+                                                                const Text(
+                                                                  "Давление : ",
+                                                                  style: TextStyle(
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w600),
+                                                                ),
+                                                                Text(
+                                                                    "${element['syst']} / ${element['dist']}"),
+                                                              ],
+                                                            ),
+                                                            Text(
+                                                              "${element['dhpname']}",
+                                                              style:
+                                                                  const TextStyle(
+                                                                fontStyle:
+                                                                    FontStyle
+                                                                        .italic,
+                                                                fontSize: 10,
+                                                              ),
+                                                            ),
+                                                            Row(
+                                                              children: [
+                                                                const Text(
+                                                                  "Пульс : ",
+                                                                  style: TextStyle(
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w600),
+                                                                ),
+                                                                Text(element[
+                                                                            'pulse'] ==
+                                                                        "0"
+                                                                    ? ""
+                                                                    : "${element['pulse']}"),
+                                                              ],
+                                                            ),
+                                                            Row(
+                                                              children: [
+                                                                const Text(
+                                                                  "Самочуствие : ",
+                                                                  style: TextStyle(
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w600),
+                                                                ),
+                                                                Text(
+                                                                    "${element['wellbeing']}"),
+                                                              ],
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    )
+                                                  ],
+                                                ),
+                                              ),
+                                              Expanded(
+                                                child: Container(
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        const BorderRadius.only(
+                                                            bottomRight:
+                                                                Radius.circular(
+                                                                    4),
+                                                            topRight:
+                                                                Radius.circular(
+                                                                    4)),
+                                                    color: colorFromHex(
+                                                        element['dhpcolor']),
+                                                  ),
+                                                  child: const Column(
+                                                    children: [
+                                                      Text(""),
+                                                      Text(""),
+                                                      Text(""),
+                                                      Text(""),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
                                           ),
                                         ),
                                       ),
-                                      child: Card(
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(4.0),
-                                        ),
-                                        elevation: 2.0,
-                                        margin: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 8.0),
-                                        child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                          crossAxisAlignment: CrossAxisAlignment.center,
-                                          children: [
-                                            Expanded(
-                                              child: Container(
-                                                decoration: BoxDecoration(
-                                                  borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(4), topLeft: Radius.circular(4)),
-                                                  color: colorFromHex(element['dhpcolor']),
-                                                ),
-                                                child: const Column(
-                                                  children: [
-                                                    Text(""),
-                                                    Text(""),
-                                                    Text(""),
-                                                    Text(""),
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
-                                            Expanded(
-                                              flex: 30,
-                                              child: Row(
-                                                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                                crossAxisAlignment: CrossAxisAlignment.center,
-                                                children: [
-                                                  SizedBox(
-                                                    width: 60,
-                                                    child: Padding(
-                                                      padding: const EdgeInsets.all(8.0),
-                                                      child: Text(
-                                                        element['times'],
-                                                        style: const TextStyle(fontWeight: FontWeight.w500),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  Expanded(
-                                                    child: Padding(
-                                                      padding: const EdgeInsets.only(left: 8, right: 8),
-                                                      child: Column(
-                                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                                        children: [
-                                                          Row(
-                                                            children: [
-                                                              const Text(
-                                                                "Давление : ",
-                                                                style: TextStyle(fontWeight: FontWeight.w600),
-                                                              ),
-                                                              Text("${element['syst']} / ${element['dist']}"),
-                                                            ],
-                                                          ),
-                                                          Text(
-                                                            "${element['dhpname']}",
-                                                            style: const TextStyle(
-                                                              fontStyle: FontStyle.italic,
-                                                              fontSize: 10,
-                                                            ),
-                                                          ),
-                                                          Row(
-                                                            children: [
-                                                              const Text(
-                                                                "Пульс : ",
-                                                                style: TextStyle(fontWeight: FontWeight.w600),
-                                                              ),
-                                                              Text(element['pulse'] == "0" ? "" : "${element['pulse']}"),
-                                                            ],
-                                                          ),
-                                                          Row(
-                                                            children: [
-                                                              const Text(
-                                                                "Самочуствие : ",
-                                                                style: TextStyle(fontWeight: FontWeight.w600),
-                                                              ),
-                                                              Text("${element['wellbeing']}"),
-                                                            ],
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ),
-                                                  )
-                                                ],
-                                              ),
-                                            ),
-                                            Expanded(
-                                              child: Container(
-                                                decoration: BoxDecoration(
-                                                  borderRadius: const BorderRadius.only(bottomRight: Radius.circular(4), topRight: Radius.circular(4)),
-                                                  color: colorFromHex(element['dhpcolor']),
-                                                ),
-                                                child: const Column(
-                                                  children: [
-                                                    Text(""),
-                                                    Text(""),
-                                                    Text(""),
-                                                    Text(""),
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  );
-                                },
-                              );
-                      } else {
-                        return const Center(
-                            child: Text(
-                          "Ошибка получения данных",
-                          style: TextStyle(
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ));
+                                    );
+                                  },
+                                );
+                        } else {
+                          return const Center(
+                              child: Text(
+                            "Ошибка получения данных",
+                            style: TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ));
+                        }
                       }
-                    }
-                  }),
+                    }),
+              ),
             ],
           ),
         ),

@@ -10,8 +10,6 @@ class StatScreen extends StatefulWidget {
 class _StatScreenState extends State<StatScreen> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Text("SettScreen"),
-    );
+    return const Text("SettScreen");
   }
 }

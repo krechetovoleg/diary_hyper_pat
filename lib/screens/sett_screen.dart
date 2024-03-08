@@ -10,8 +10,6 @@ class SettScreen extends StatefulWidget {
 class _SettScreenState extends State<SettScreen> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Text("SettScreen"),
-    );
+    return const Text("SettScreen");
   }
 }
