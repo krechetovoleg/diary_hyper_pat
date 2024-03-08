@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:sqflite/sqflite.dart';
 import 'package:diary_hyper_pat/database/database_service.dart';
 import 'package:diary_hyper_pat/models/dhp_filter_model.dart';
