@@ -128,7 +128,7 @@ class DhpDB {
     }
 
     final dhps = await db.rawQuery(
-        '''select t.id, t.syst, t.dist, t.pulse, t.wellbeing, t.comment, t.dates, t.times, tt.dhpcolor, tt.name as dhpname, t.sort       
+        '''select t.id, t.syst, t.dist, t.pulse, t.wellbeing, t.comment, t.dates, t.times, tt.dhpcolor, tt.name as dhpname, t.sort || t.dates as sort      
     from dhp_data as t
     left join dhp_set tt on tt.id = 
     (select id from 

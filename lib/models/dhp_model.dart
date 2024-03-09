@@ -9,7 +9,7 @@ class Dhp {
   String times = "";
   String dhpcolor = "";
   String dhpname = "";
-  int sort = 0;
+  String sort = "";
 
   Dhp(
       {required this.id,
@@ -35,7 +35,7 @@ class Dhp {
         times: json['times'] ?? '',
         dhpcolor: json['dhpcolor'] ?? '',
         dhpname: json['dhpname'] ?? '',
-        sort: json['sort'] ?? 0,
+        sort: json['sort'] ?? '',
       );
 
   static List<Map<String, dynamic>> fetchData(List dhps) {

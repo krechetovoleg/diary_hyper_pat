@@ -157,232 +157,234 @@ class _DataScreenState extends State<DataScreen> {
                     ),
               content: SizedBox(
                 width: width,
-                child: Form(
-                  key: _formKey,
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Row(
-                        children: [
-                          SizedBox(
-                            width: width * 0.39,
-                            child: TextFormField(
-                              controller: tcDates,
-                              onTap: () => selectDate(tcDates),
-                              readOnly: true,
-                              decoration: const InputDecoration(
-                                border: OutlineInputBorder(),
-                                label: Center(
-                                  child: Text(
-                                    "Дата",
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 14,
+                child: SingleChildScrollView(
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Row(
+                          children: [
+                            SizedBox(
+                              width: width * 0.39,
+                              child: TextFormField(
+                                controller: tcDates,
+                                onTap: () => selectDate(tcDates),
+                                readOnly: true,
+                                decoration: const InputDecoration(
+                                  border: OutlineInputBorder(),
+                                  label: Center(
+                                    child: Text(
+                                      "Дата",
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 14,
+                                      ),
+                                    ),
+                                  ),
+                                  counterText: "",
+                                ),
+                                validator: (value) =>
+                                    value == null || value.isEmpty
+                                        ? 'Заполните'
+                                        : null,
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            SizedBox(
+                              width: width * 0.39,
+                              child: TextFormField(
+                                controller: tcTimes,
+                                onTap: () => selectTime(),
+                                readOnly: true,
+                                decoration: const InputDecoration(
+                                  border: OutlineInputBorder(),
+                                  label: Center(
+                                    child: Text(
+                                      "Время",
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 14,
+                                      ),
+                                    ),
+                                  ),
+                                  counterText: "",
+                                ),
+                                validator: (value) =>
+                                    value == null || value.isEmpty
+                                        ? 'Заполните'
+                                        : null,
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 16),
+                        Row(
+                          children: [
+                            SizedBox(
+                              width: width * 0.25,
+                              child: TextFormField(
+                                controller: tcSyst,
+                                decoration: const InputDecoration(
+                                  border: OutlineInputBorder(),
+                                  label: Center(
+                                    child: Text(
+                                      "Сист.",
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 14,
+                                      ),
+                                    ),
+                                  ),
+                                  counterText: "",
+                                ),
+                                validator: (value) =>
+                                    value == null || value.isEmpty
+                                        ? 'Заполните'
+                                        : null,
+                                textAlign: TextAlign.center,
+                                keyboardType: TextInputType.number,
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.digitsOnly
+                                ],
+                                maxLength: 3,
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            SizedBox(
+                              width: width * 0.25,
+                              child: TextFormField(
+                                controller: tcDist,
+                                decoration: const InputDecoration(
+                                  border: OutlineInputBorder(),
+                                  label: Center(
+                                    child: Text(
+                                      "Диаст.",
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 14,
+                                      ),
+                                    ),
+                                  ),
+                                  counterText: "",
+                                ),
+                                validator: (value) =>
+                                    value == null || value.isEmpty
+                                        ? 'Заполните'
+                                        : null,
+                                textAlign: TextAlign.center,
+                                keyboardType: TextInputType.number,
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.digitsOnly
+                                ],
+                                maxLength: 3,
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            SizedBox(
+                              width: width * 0.25,
+                              child: TextFormField(
+                                controller: tcPulse,
+                                decoration: const InputDecoration(
+                                  border: OutlineInputBorder(),
+                                  label: Center(
+                                    child: Text(
+                                      "Пульс",
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 14,
+                                      ),
+                                    ),
+                                  ),
+                                  counterText: "",
+                                ),
+                                textAlign: TextAlign.center,
+                                keyboardType: TextInputType.number,
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.digitsOnly
+                                ],
+                                maxLength: 3,
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 16),
+                        Row(
+                          children: [
+                            SizedBox(
+                              width: width * 0.8,
+                              child: TextFormField(
+                                controller: tcwellbeing,
+                                decoration: InputDecoration(
+                                  border: const OutlineInputBorder(),
+                                  label: const Center(
+                                    child: Text(
+                                      "Самочуствие",
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 14,
+                                      ),
+                                    ),
+                                  ),
+                                  suffixIcon: PopupMenuButton<String>(
+                                    icon: const Icon(Icons.arrow_drop_down),
+                                    onSelected: (String value) {
+                                      tcwellbeing.text = value;
+                                    },
+                                    constraints:
+                                        BoxConstraints(minWidth: width * 0.8),
+                                    itemBuilder: (BuildContext context) {
+                                      return wellbeingList
+                                          .map<PopupMenuItem<String>>(
+                                              (String value) {
+                                        return PopupMenuItem(
+                                            value: value, child: Text(value));
+                                      }).toList();
+                                    },
+                                  ),
+                                ),
+                                textAlign: TextAlign.left,
+                                keyboardType: TextInputType.none,
+                                readOnly: true,
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 16),
+                        Row(
+                          children: [
+                            SizedBox(
+                              width: width * 0.8,
+                              child: TextFormField(
+                                controller: tcComment,
+                                decoration: const InputDecoration(
+                                  border: OutlineInputBorder(),
+                                  label: Center(
+                                    child: Text(
+                                      "Примечание",
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 14,
+                                      ),
                                     ),
                                   ),
                                 ),
-                                counterText: "",
+                                textAlign: TextAlign.left,
+                                maxLines: 2,
                               ),
-                              validator: (value) =>
-                                  value == null || value.isEmpty
-                                      ? 'Заполните'
-                                      : null,
-                              textAlign: TextAlign.center,
                             ),
-                          ),
-                          const SizedBox(
-                            width: 10,
-                          ),
-                          SizedBox(
-                            width: width * 0.39,
-                            child: TextFormField(
-                              controller: tcTimes,
-                              onTap: () => selectTime(),
-                              readOnly: true,
-                              decoration: const InputDecoration(
-                                border: OutlineInputBorder(),
-                                label: Center(
-                                  child: Text(
-                                    "Время",
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 14,
-                                    ),
-                                  ),
-                                ),
-                                counterText: "",
-                              ),
-                              validator: (value) =>
-                                  value == null || value.isEmpty
-                                      ? 'Заполните'
-                                      : null,
-                              textAlign: TextAlign.center,
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 16),
-                      Row(
-                        children: [
-                          SizedBox(
-                            width: width * 0.25,
-                            child: TextFormField(
-                              controller: tcSyst,
-                              decoration: const InputDecoration(
-                                border: OutlineInputBorder(),
-                                label: Center(
-                                  child: Text(
-                                    "Сист.",
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 14,
-                                    ),
-                                  ),
-                                ),
-                                counterText: "",
-                              ),
-                              validator: (value) =>
-                                  value == null || value.isEmpty
-                                      ? 'Заполните'
-                                      : null,
-                              textAlign: TextAlign.center,
-                              keyboardType: TextInputType.number,
-                              inputFormatters: [
-                                FilteringTextInputFormatter.digitsOnly
-                              ],
-                              maxLength: 3,
-                            ),
-                          ),
-                          const SizedBox(
-                            width: 10,
-                          ),
-                          SizedBox(
-                            width: width * 0.25,
-                            child: TextFormField(
-                              controller: tcDist,
-                              decoration: const InputDecoration(
-                                border: OutlineInputBorder(),
-                                label: Center(
-                                  child: Text(
-                                    "Диаст.",
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 14,
-                                    ),
-                                  ),
-                                ),
-                                counterText: "",
-                              ),
-                              validator: (value) =>
-                                  value == null || value.isEmpty
-                                      ? 'Заполните'
-                                      : null,
-                              textAlign: TextAlign.center,
-                              keyboardType: TextInputType.number,
-                              inputFormatters: [
-                                FilteringTextInputFormatter.digitsOnly
-                              ],
-                              maxLength: 3,
-                            ),
-                          ),
-                          const SizedBox(
-                            width: 10,
-                          ),
-                          SizedBox(
-                            width: width * 0.25,
-                            child: TextFormField(
-                              controller: tcPulse,
-                              decoration: const InputDecoration(
-                                border: OutlineInputBorder(),
-                                label: Center(
-                                  child: Text(
-                                    "Пульс",
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 14,
-                                    ),
-                                  ),
-                                ),
-                                counterText: "",
-                              ),
-                              textAlign: TextAlign.center,
-                              keyboardType: TextInputType.number,
-                              inputFormatters: [
-                                FilteringTextInputFormatter.digitsOnly
-                              ],
-                              maxLength: 3,
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 16),
-                      Row(
-                        children: [
-                          SizedBox(
-                            width: width * 0.8,
-                            child: TextFormField(
-                              controller: tcwellbeing,
-                              decoration: InputDecoration(
-                                border: const OutlineInputBorder(),
-                                label: const Center(
-                                  child: Text(
-                                    "Самочуствие",
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 14,
-                                    ),
-                                  ),
-                                ),
-                                suffixIcon: PopupMenuButton<String>(
-                                  icon: const Icon(Icons.arrow_drop_down),
-                                  onSelected: (String value) {
-                                    tcwellbeing.text = value;
-                                  },
-                                  constraints:
-                                      BoxConstraints(minWidth: width * 0.8),
-                                  itemBuilder: (BuildContext context) {
-                                    return wellbeingList
-                                        .map<PopupMenuItem<String>>(
-                                            (String value) {
-                                      return PopupMenuItem(
-                                          value: value, child: Text(value));
-                                    }).toList();
-                                  },
-                                ),
-                              ),
-                              textAlign: TextAlign.left,
-                              keyboardType: TextInputType.none,
-                              readOnly: true,
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 16),
-                      Row(
-                        children: [
-                          SizedBox(
-                            width: width * 0.8,
-                            child: TextFormField(
-                              controller: tcComment,
-                              decoration: const InputDecoration(
-                                border: OutlineInputBorder(),
-                                label: Center(
-                                  child: Text(
-                                    "Примечание",
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 14,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              textAlign: TextAlign.left,
-                              maxLines: 3,
-                            ),
-                          ),
-                        ],
-                      )
-                    ],
+                          ],
+                        )
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -668,9 +670,10 @@ class _DataScreenState extends State<DataScreen> {
                                     padding: const EdgeInsets.only(
                                       left: 8.0,
                                       right: 8.0,
+                                      bottom: 2.0,
                                     ),
                                     child: Text(
-                                      value,
+                                      value.substring(13, 23),
                                       textAlign: TextAlign.left,
                                       style: const TextStyle(
                                         fontSize: 14,
@@ -792,13 +795,11 @@ class _DataScreenState extends State<DataScreen> {
                                                             const EdgeInsets
                                                                 .all(8.0),
                                                         child: Text(
-                                                          element['times'] +
-                                                              '-' +
-                                                              element['dates'],
+                                                          element['times'],
                                                           style: const TextStyle(
                                                               fontWeight:
                                                                   FontWeight
-                                                                      .w500),
+                                                                      .w600),
                                                         ),
                                                       ),
                                                     ),
