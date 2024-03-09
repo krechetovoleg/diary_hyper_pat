@@ -335,7 +335,10 @@ class _DataScreenState extends State<DataScreen> {
                                     ),
                                   ),
                                   suffixIcon: PopupMenuButton<String>(
-                                    icon: const Icon(Icons.arrow_drop_down),
+                                    icon: const Icon(
+                                      Icons.arrow_drop_down,
+                                      size: 32,
+                                    ),
                                     onSelected: (String value) {
                                       tcwellbeing.text = value;
                                     },
@@ -351,8 +354,6 @@ class _DataScreenState extends State<DataScreen> {
                                     },
                                   ),
                                 ),
-                                textAlign: TextAlign.left,
-                                keyboardType: TextInputType.none,
                                 readOnly: true,
                               ),
                             ),
@@ -607,6 +608,7 @@ class _DataScreenState extends State<DataScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: const Text(
           "DHP: Дневник давления и пульса",
