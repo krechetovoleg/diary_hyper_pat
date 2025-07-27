@@ -25,9 +25,9 @@ dependencies:
   cupertino_icons: ^1.0.2
   sqflite: ^2.3.2
   path: ^1.9.0
-  intl: ^0.18.1
-  grouped_list: ^5.1.2
-  flutter_localization: ^0.2.0
+  intl: ^0.20.2
+  grouped_list: ^6.0.0
+  flutter_localization: ^0.3.0
   get: ^4.6.6
   group_button: ^5.3.4
 
@@ -41,7 +41,7 @@ dev_dependencies:
   # activated in the `analysis_options.yaml` file located at the root of your
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
-  flutter_lints: ^2.0.0
+  flutter_lints: ^6.0.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

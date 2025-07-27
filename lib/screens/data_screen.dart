@@ -92,11 +92,9 @@ class _DataScreenState extends State<DataScreen> {
       locale: const Locale("ru", "RU"),
     );
 
-    if (selected != null) {
-      setState(() {
-        tec.text = DateFormat('dd.MM.yyyy').format(selected);
-      });
-    }
+    setState(() {
+      tec.text = DateFormat('dd.MM.yyyy').format(selected!);
+    });
   }
 
   Future<void> selectTime() async {
@@ -939,12 +937,12 @@ class _DataScreenState extends State<DataScreen> {
 
 class RadioTile extends StatelessWidget {
   const RadioTile({
-    Key? key,
+    super.key,
     required this.selected,
     required this.onTap,
     required this.index,
     required this.title,
-  }) : super(key: key);
+  });
 
   final String title;
   final int index;
